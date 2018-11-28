@@ -19,43 +19,41 @@ app.get('/', function (req, res) {
 	res.send('Hello World')
 })
 app.get('/getJson', (req, res) => {
-	let a= Convert(result)
+	let data= Convert(result)
 	// res.json(result)
-		res.json(a)
+		res.json(data)
 })
 
 Convert=(result)=>{
-	let data =[];
 	let raw = result['STD FOR Export Intagrate'];
-	data.push(raw[1].B)
 	let mortality=[], weight=[], daily_feed=[], fcr=[], temperature=[], humidity=[], hn3=[], co=[], co2=[], light=[], windspeed=[];
 	for(let i =4;i<raw.length;i++){
 		let _mortality = {
 			"day":raw[i].A,
 			"daily":raw[i].B,
 			"cum":raw[i].C,
-			"alarm":[null,raw[i].D]
+			"alarm":['N/A',raw[i].D]
 		}
 		let _weight = {
 			"day":raw[i].A,
 			"st-run":raw[i].E,
 			"male":raw[i].F,
 			"female":raw[i].G,
-			"alarm":[null,null]
+			"alarm":[raw[i].H,raw[i].H]
 		}
 		let _daily_feed = {
 			"day":raw[i].A,
 			"st-run":raw[i].I,
 			"male":raw[i].J,
 			"female":raw[i].K,
-			"alarm":[null,null]
+			"alarm":[raw[i].L,raw[i].L]
 		}
 		let _fcr = {
 			"day":raw[i].A,
 			"st-run":raw[i].M,
 			"male":raw[i].N,
 			"female":raw[i].O,
-			"alarm":[null,null]
+			"alarm":[raw[i].P,raw[i].P]
 
 		}
 		let _temperature = {
@@ -68,36 +66,36 @@ Convert=(result)=>{
 			"day":raw[i].A,
 			"low":raw[i].U,
 			"high":raw[i].V,
-			"alarm":[null,raw[i].W]
+			"alarm":['N/A',raw[i].W]
 		}
 		let _hn3 = {
 			"day":raw[i].A,
 			"low":raw[i].X,
 			"high":raw[i].Y,
-			"alarm":[null,raw[i].Z]
+			"alarm":['N/A',raw[i].Z]
 		}
 		let _co = {
 			"day":raw[i].A,
 			"low":raw[i].AA,
 			"high":raw[i].AB,
-			"alarm":[null,raw[i].AC]
+			"alarm":['N/A',raw[i].AC]
 		}
 		let _co2 = {
 			"day":raw[i].A,
 			"low":raw[i].AD,
 			"high":raw[i].AE,
-			"alarm":[null,raw[i].AF]
+			"alarm":['N/A',raw[i].AF]
 		}
 		let _light = {
 			"day":raw[i].A,
 			"target":raw[i].AK,
-			"alarm":[null,null]
+			"alarm":[raw[i].AL,raw[i].AL]
 		}
 		let _windspeed = {
 			"day":raw[i].A,
 			"low":raw[i].AM,
 			"high":raw[i].AN,
-			"alarm":[null,raw[i].AF]
+			"alarm":[raw[i].AO,'N/A']
 		}
 		mortality.push(_mortality);
 		weight.push(_weight);
@@ -112,12 +110,20 @@ Convert=(result)=>{
 		windspeed.push(_windspeed);
 	}
 
-	let all={
+	let all_data={
 		"mortality":mortality,
-		"weight":weight
+		"weight":weight,
+		"daily_feed":daily_feed,
+		"fcr":fcr,
+		"temperature":temperature,
+		"humidity":humidity,
+		"hn3":hn3,
+		"co":co,
+		"co2":co2,
+		"light":light,
+		"windspeed":windspeed
 	}
-	console.log(all);
-	console.log(data)
-	return all;
+	console.log(all_data);
+	return all_data;
 }
 app.listen(3210)
